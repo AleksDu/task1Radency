@@ -3,10 +3,10 @@
   "version": "1.1.0",
   "description": "",
   "main": "index.js",
-  "homepage": "https://goitacademy.github.io/parcel-project-template",
+  "homepage": "https://github.com/AleksDu/task1Radency",
   "scripts": {
     "dev": "parcel src/*.html",
-    "build": "parcel build src/*.html --public-url /parcel-project-template/"
+    "build": "parcel build src/*.html --public-url /task1Radency/"
   },
   "repository": {
     "type": "git",
@@ -19,10 +19,19 @@
     "url": "https://github.com/goitacademy/parcel-project-template/issues"
   },
   "devDependencies": {
+    "gh-pages": "^3.2.3",
     "parcel-bundler": "^1.12.5",
     "parcel-plugin-handlebars-precompile": "^1.0.2",
     "parcel-plugin-nuke-dist": "^1.0.1",
     "posthtml-include": "^1.6.2",
     "sass": "^1.32.8"
+  },
+  "dependencies": {
+    "deasync": "^0.1.24",
+    "handlebars": "^4.7.7",
+    "l": "^0.6.0",
+    "lodash.debounce": "^4.0.8",
+    "node-gyp": "^8.4.1",
+    "shortid": "^2.2.16"
   }
 }
