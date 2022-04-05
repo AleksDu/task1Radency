@@ -130,7 +130,7 @@ export function archivedMarkupEl(data) {
   <td>${el.сontent}</td>
   <td>${el.dates}</td>
   <td><img  src='${edit}' alt='edit' width='30' height='30' /></td>
-  <td><img  src='${archive}' alt='archive' width='30' height='30' />archived</td>
+  <td><img  src='${download}' alt='download' width='30' height='30' />archived</td>
   <td><img  src="${deleteIt}" alt='delete' width='30' height='30' /></td>
 </tr>`;
     })
