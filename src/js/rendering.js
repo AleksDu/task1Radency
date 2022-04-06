@@ -6,60 +6,87 @@ import edit from '../images/edit.png';
 import archive from '../images/archive.png';
 import deleteIt from '../images/deleteIt.png';
 
-export function noteCategory(
-  data,
-  editNoteId,
-  taskActiveEl,
-  taskArchivedEl,
-  randomActiveEl,
-  randomArchivedEl,
-  ideaActiveEl,
-  ideaArchivedEl,
-  quoterActiveEl,
-  quoterArchivedEl,
-) {
-  let note = '';
-  let activeEl = '';
-  let archivedEl = '';
+export function noteCategory(data) {
+  const allCategories = data.map(item => item.category);
+  const uniqueCategories = [...new Set(allCategories)];
+  const filteredCategories = uniqueCategories.map(uniqueCategory => {
+    const category = {
+      [uniqueCategory]: {
+        active: data.filter(item => item.category === uniqueCategory && item.archived === false)
+          .length,
+        archived: data.filter(item => item.category === uniqueCategory && item.archived === true)
+          .length,
+      },
+    };
+    return category;
+  });
 
-  return data
-    .map(el => {
-      switch (el) {
-        case 'Task':
-          note = handbasket;
-          activeEl = taskActiveEl.length;
-          archivedEl = taskArchivedEl.length;
-          break;
-        case 'Random Thought':
-          note = evolution;
-          activeEl = randomActiveEl.length;
-          archivedEl = randomArchivedEl.length;
-          break;
-        case 'Idea':
-          note = feature;
-          activeEl = ideaActiveEl.length;
-          archivedEl = ideaArchivedEl.length;
-          break;
-        case 'Quote':
-          note = william;
-          activeEl = quoterActiveEl.length;
-          archivedEl = quoterArchivedEl.length;
-          break;
-        default:
-          note = handbasket;
-          break;
-      }
-      return `<tr id="${el.id}" class='archived'>
-  <td><img class="noteIcon" src='${note}' alt='note' width='30' height='30' /></td>
-  <td>${el}</td>
-  <td>${activeEl}</td>
-  <td>${archivedEl}</td>
-  
-  
-</tr>`;
+  return filteredCategories
+    .forEach(category => {
+      const key = Object.keys(category);
+      `<tr id="${key.id}" class='archived'>
+         <td><img class="noteIcon" src='${data.content}' alt='note' width='30' height='30' /></td>
+        <td>${key}</td>
+         <td>${category[key].active}</td>
+         <td>${category[key].archived}</td>
+        </tr>`;
     })
     .join('');
 }
+
+// export function noteCategory(
+//   data,
+//   editNoteId,
+//   taskActiveEl,
+//   taskArchivedEl,
+//   randomActiveEl,
+//   randomArchivedEl,
+//   ideaActiveEl,
+//   ideaArchivedEl,
+//   quoterActiveEl,
+//   quoterArchivedEl,
+// ) {
+//   let note = '';
+//   let activeEl = '';
+//   let archivedEl = '';
+
+//   return data
+//     .map(el => {
+//       switch (el) {
+//         case 'Task':
+//           note = handbasket;
+//           activeEl = taskActiveEl.length;
+//           archivedEl = taskArchivedEl.length;
+//           break;
+//         case 'Random Thought':
+//           note = evolution;
+//           activeEl = randomActiveEl.length;
+//           archivedEl = randomArchivedEl.length;
+//           break;
+//         case 'Idea':
+//           note = feature;
+//           activeEl = ideaActiveEl.length;
+//           archivedEl = ideaArchivedEl.length;
+//           break;
+//         case 'Quote':
+//           note = william;
+//           activeEl = quoterActiveEl.length;
+//           archivedEl = quoterArchivedEl.length;
+//           break;
+//         default:
+//           note = handbasket;
+//           break;
+//       }
+//       return `<tr id="${el.id}" class='archived'>
+//   <td><img class="noteIcon" src='${note}' alt='note' width='30' height='30' /></td>
+//   <td>${el}</td>
+//   <td>${activeEl}</td>
+//   <td>${archivedEl}</td>
+
+// </tr>`;
+//     })
+//     .join('');
+// }
 
 export function noteCategoryEl(data) {
   let note = '';
