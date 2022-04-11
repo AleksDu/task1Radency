@@ -185,39 +185,74 @@ function onEditNote(e) {
 function onArchiveNote(e) {
   makeEmptyAllArr();
 
-  if (e.className === 'active') {
-    activeNotes.forEach((el, index) => {
-      if (el.id === e.id) {
-        if (el.isActive === 'true') {
-          el.isActive = 'false';
-          archivedNotes.push(el);
-          activeNotes.splice(index, 1);
+  e.className === 'active' &&
+    activeNotes.forEach((el, index) => handleNotesStatusToggling(el, index, e));
 
-          const notesMarkup = noteCategoryEl(activeNotes);
-          renderActiveNotes(notesMarkup);
-        }
-      }
-    });
-  }
+  e.className === 'archived' &&
+    archivedNotes.forEach((el, index) => handleNotesStatusToggling(el, index, e));
 
-  if (e.className === 'archived') {
-    archivedNotes.forEach((el, index) => {
-      if (el.id === e.id) {
-        if (el.isActive === 'false') {
-          el.isActive = 'true';
-          activeNotes.push(el);
-          archivedNotes.splice(index, 1);
-
-          const notesMarkup = archivedMarkupEl(archivedNotes);
-          renderActiveNotes(notesMarkup);
-        }
-      }
-    });
-  }
   filterByCategories(activeNotes, archivedNotes);
 }
 
+
 export function onRemoveNote({ id }) {
+
+const handleNotesStatusToggling = (el, index, event) => {
+  if (el.id === event.id) {
+    let notesMarkup;
+
+    if (el.isActive) {
+      el.isActive = !el.isActive;
+      archivedNotes.push(el);
+      activeNotes.splice(index, 1);
+      notesMarkup = noteCategoryEl(activeNotes);
+    } else {
+      el.isActive = !el.isActive;
+      activeNotes.push(el);
+      archivedNotes.splice(index, 1);
+      notesMarkup = archivedMarkupEl(archivedNotes);
+    }
+
+    renderActiveNotes(notesMarkup);
+  }
+};
+// function onArchiveNote(e) {
+//   makeEmptyAllArr();
+
+//   if (e.className === 'active') {
+//     activeNotes.forEach((el, index) => {
+//       if (el.id === e.id) {
+//         if (el.isActive === 'true') {
+//           el.isActive = 'false';
+//           archivedNotes.push(el);
+//           activeNotes.splice(index, 1);
+
+//           const notesMarkup = noteCategoryEl(activeNotes);
+//           renderActiveNotes(notesMarkup);
+//         }
+//       }
+//     });
+//   }
+
+//   if (e.className === 'archived') {
+//     archivedNotes.forEach((el, index) => {
+//       if (el.id === e.id) {
+//         if (el.isActive === 'false') {
+//           el.isActive = 'true';
+//           activeNotes.push(el);
+//           archivedNotes.splice(index, 1);
+
+//           const notesMarkup = archivedMarkupEl(archivedNotes);
+//           renderActiveNotes(notesMarkup);
+//         }
+//       }
+//     });
+//   }
+//   filterByCategories(activeNotes, archivedNotes);
+// }
+
+function onRemoveNote({ id }) {
+
   makeEmptyAllArr();
 
   const index = activeNotes.findIndex(el => el.id === id);
