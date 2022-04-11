@@ -5,33 +5,54 @@ import william from '../images/william.png';
 import edit from '../images/edit.png';
 import archive from '../images/archive.png';
 import deleteIt from '../images/deleteIt.png';
+import data from '../data.json';
 
-export function noteCategory(data) {
+export function noteCategory() {
+  const storage = getData();
+  let html = '';
+  storage.forEach(category => {
+    const key = Object.keys(category);
+    html += `
+    ${key
+      .map(el => {
+        return `
+        <tr id="${el.id}" class='archived'>
+        <td><img class="noteIcon" src='${el.name}' alt='note' width='30' height='30' /></td>
+<td>${el}</td>
+ <td>${category[key].active}</td>
+<td>${category[key].archived}</td>`;
+      })
+      .join('')}
+`;
+  });
+  return html;
+}
+
+function getData() {
   const allCategories = data.map(item => item.category);
   const uniqueCategories = [...new Set(allCategories)];
   const filteredCategories = uniqueCategories.map(uniqueCategory => {
-    const category = {
+    const cat = {
       [uniqueCategory]: {
-        active: data.filter(item => item.category === uniqueCategory && item.archived === false)
-          .length,
-        archived: data.filter(item => item.category === uniqueCategory && item.archived === true)
-          .length,
+        active: 0,
+        archived: 0,
       },
     };
-    return category;
-  });
+    data.forEach(item => {
+      if (item.category === uniqueCategory) {
+        cat[uniqueCategory].active += 1;
+      }
+    });
+    data.forEach(item => {
+      if (item.category === uniqueCategory && item.isActive === 'false') {
+        cat[uniqueCategory].archived += 1;
+        cat[uniqueCategory].active -= 1;
+      }
+    });
 
-  return filteredCategories
-    .forEach(category => {
-      const key = Object.keys(category);
-      `<tr id="${key.id}" class='archived'>
-         <td><img class="noteIcon" src='${data.content}' alt='note' width='30' height='30' /></td>
-        <td>${key}</td>
-         <td>${category[key].active}</td>
-         <td>${category[key].archived}</td>
-        </tr>`;
-    })
-    .join('');
+    return cat;
+  });
+  return filteredCategories;
 }
 
 // export function noteCategory(
@@ -46,6 +67,7 @@ export function noteCategory(data) {
 //   quoterActiveEl,
 //   quoterArchivedEl,
 // ) {
+//   console.log(data);
 //   let note = '';
 //   let activeEl = '';
 //   let archivedEl = '';
@@ -56,7 +78,9 @@ export function noteCategory(data) {
 //         case 'Task':
 //           note = handbasket;
 //           activeEl = taskActiveEl.length;
+//           console.log(taskActiveEl);
 //           archivedEl = taskArchivedEl.length;
+
 //           break;
 //         case 'Random Thought':
 //           note = evolution;
@@ -90,7 +114,6 @@ export function noteCategory(data) {
 
 export function noteCategoryEl(data) {
   let note = '';
-
   const btnSub = document.getElementById('sbtBtn');
   btnSub.classList.remove('isHidden');
 

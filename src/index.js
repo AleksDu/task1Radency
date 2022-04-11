@@ -194,6 +194,9 @@ function onArchiveNote(e) {
   filterByCategories(activeNotes, archivedNotes);
 }
 
+
+export function onRemoveNote({ id }) {
+
 const handleNotesStatusToggling = (el, index, event) => {
   if (el.id === event.id) {
     let notesMarkup;
@@ -249,6 +252,7 @@ const handleNotesStatusToggling = (el, index, event) => {
 // }
 
 function onRemoveNote({ id }) {
+
   makeEmptyAllArr();
 
   const index = activeNotes.findIndex(el => el.id === id);
