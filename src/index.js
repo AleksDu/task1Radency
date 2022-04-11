@@ -217,7 +217,7 @@ function onArchiveNote(e) {
   filterByCategories(activeNotes, archivedNotes);
 }
 
-function onRemoveNote({ id }) {
+export function onRemoveNote({ id }) {
   makeEmptyAllArr();
 
   const index = activeNotes.findIndex(el => el.id === id);
